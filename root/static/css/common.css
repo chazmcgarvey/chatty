@@ -9,6 +9,11 @@ img {
 	border: 0;
 }
 
+hr {
+	border: 0;
+	border-bottom: 1px solid gray;
+}
+
 a {
 	text-decoration: none;
 }
@@ -45,5 +50,12 @@ a:hover {
 
 #inner h1 {
 	font-size: 1.3em;
+}
+
+#footer {
+	padding: 0;
+	height: 31px;
+	line-height: 31px;
+	font-size: 0.8em;
 }
 

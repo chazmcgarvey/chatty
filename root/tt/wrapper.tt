@@ -11,6 +11,15 @@
 		<div id="outer">
 			<div id="inner">
 [% content %]
+				<hr>
+				<div id="footer">
+					Copyright &copy; 2011 Charles McGarvey. Some rights reserved.
+					<div class="right">
+						<a href="http://www.catalystframework.org/">
+							<img src="[% c.uri_for('static/img/btn_88x31_built_shadow.png') %]">
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script type="text/javascript" src="[% static('js/jquery.tools-1.2.6.min.js') %]"></script>
