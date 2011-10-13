@@ -20,6 +20,16 @@ requires 'Config::General'; # This should reflect the config file format you've 
 test_requires 'Test::More' => '0.88';
 catalyst;
 
+# Add targets to run the developer server.
+sub MY::postamble {
+	return <<END;
+run: all
+	./script/chatty_server.pl -r
+debug: all
+	./script/chatty_server.pl -r -d
+END
+}
+
 install_script glob('script/*.pl');
 auto_install;
 WriteAll;
