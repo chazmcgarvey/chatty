@@ -1,13 +1,24 @@
-<h1>Log In</h1>
-[% IF ! c.user_exists %]
+[% META title = 'Log In' -%]
+<h2>Log In</h2>
+[% IF ! c.user_exists -%]
 <form action="[% c.uri_for('login')  %]" method="post">
-	<label for="handle">Username</label>
-	<input type="text" name="handle" id="handle">
-	<label for="password">Password</label>
-	<input type="password" name="password" id="password">
-	<input type="submit" value="Login">
+	<fieldset>
+		<p>
+			<label for="handle">Username</label>
+			<input type="text" name="handle" id="handle">
+		</p>
+		<p>
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password">
+		</p>
+		<input type="submit" value="Login">
+	</fieldset>
 </form>
-[% ELSE %]
+<h3>Don't have an account?</h3>
+<p>
+If you haven't yet registered, <a href="[% c.uri_for('register') %]">go do that now</a>!
+</p>
+[% ELSE -%]
 <p>You are already logged in.</p>
 <a href="[% c.uri_for('logout') %]">Log Out</a>
-[% END %]
+[% END -%]

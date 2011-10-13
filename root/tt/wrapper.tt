@@ -5,18 +5,23 @@
 		<meta name="author" content="Charles McGarvey">
 		<meta name="description" content="This is a chat application in Catalyst!">
 		<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/css/common.css') %]">
+		<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/css/validationEngine.jquery.css') %]">
 		<title>Chatty - [% template.title or 'Toy chat application written in Perl/Catalyst' %]</title>
 	</head>
 	<body>
 		<div id="outer">
 [% IF error -%]
-				<p id="error">[% error %]</p>
+			<div id="error">
+				[% error %]
+			</div>
 [% END -%]
 [% IF message -%]
-				<p id="message">[% message %]</p>
+			<div id="message">
+				[% message %]
+			</div>
 [% END -%]
 			<div id="inner">
-[% content %]
+[% content -%]
 				<hr>
 				<div id="footer">
 					Copyright &copy; 2011 Charles McGarvey. Some rights reserved.
@@ -28,16 +33,31 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="[% c.uri_for('/static/js/jquery.tools-1.2.6.min.js') %]"></script>
+		<script type="text/javascript" src="http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js"></script>
+		<script type="text/javascript" src="[% c.uri_for('/static/js/jquery.validationEngine-2.2.1.min.js') %]"></script>
+		<script type="text/javascript" src="[% c.uri_for('/static/js/jquery.validationEngine-en.js') %]"></script>
 		<script type="text/javascript">
-[% IF error -%]
 			$(function () {
-					$("#error").expose({color: '#999'}).click(function() {
-							$.mask.close();
-							$(this).remove();
-						});
-			});
+[% IF error -%]
+				$('#error').click(function() {
+					$.mask.close();
+					$(this).slideUp('fast');
+				});
+				$('#error').delay(200).slideDown('fast').fadeOut('fast').fadeIn('fast').fadeOut('fast').fadeIn('fast');
 [% END -%]
+[% IF message -%]
+				$('#message').click(function() {
+					$(this).slideUp('fast');
+				});
+				$('#message').delay(200).slideDown('fast');
+				setTimeout("$('#message').slideUp()", 5000);
+[% END -%]
+$.tools.validator.localize("en", {
+	':email'  		: 'Please enter a valid email address.',
+	'[required]' 	: 'This field is required.'
+});
+[% TRY; INCLUDE js; CATCH; ''; END -%]
+			});
 		</script>
 	</body>
 </html>

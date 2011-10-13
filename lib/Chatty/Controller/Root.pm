@@ -72,6 +72,15 @@ sub logout :Local :Args(0) {
 	$c->response->redirect($c->uri_for('/'));
 }
 
+=head2 register
+
+Register a new account.
+
+=cut
+
+sub register :Local :Args(0) {
+}
+
 =head2 default
 
 Standard 404 error page
