@@ -21,6 +21,10 @@ use Catalyst qw/
     ConfigLoader
     StackTrace
     Static::Simple
+    Authentication
+    Session
+    Session::Store::FastMmap
+    Session::State::Cookie
 /;
 
 extends 'Catalyst';
@@ -40,6 +44,19 @@ __PACKAGE__->config(
     name => 'Chatty',
     # Disable deprecated behavior needed by old applications
     disable_component_resolution_regex_fallback => 1,
+);
+
+__PACKAGE__->config(
+	'Plugin::Authentication' => {
+		default => {
+			class           => 'SimpleDB',
+			user_model      => 'DB::Account',
+			password_type   => 'clear',
+		},
+	},
+	'Plugin::Session' => {
+		flash_to_stash => 1
+	}
 );
 
 # Start the application

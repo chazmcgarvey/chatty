@@ -59,3 +59,19 @@ a:hover {
 	font-size: 0.8em;
 }
 
+#error {
+	margin: 5px;
+	padding: 10px;
+	border: 2px solid black;
+	background: white;
+	color: red;
+	font-weight: bold;
+}
+
+#message {
+	margin: 5px;
+	padding: 10px;
+	border: 2px solid black;
+	background: white;
+}
+

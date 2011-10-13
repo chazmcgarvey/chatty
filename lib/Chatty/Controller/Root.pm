@@ -30,6 +30,48 @@ sub index :Path :Args(0) {
 	my ( $self, $c ) = @_;
 }
 
+=head2 login
+
+Allow a user to login.
+
+=cut
+
+sub login :Local :Args(0) {
+	my ($self, $c) = @_;
+	if ($c->req->method eq 'POST' && exists($c->req->params->{handle})) {
+		eval {
+			if ($c->authenticate({
+				username => $c->req->params->{handle},
+				password => $c->req->params->{password}
+			})) {
+				$c->change_session_id;
+				my $user = $c->user->get('username');
+				$c->flash->{message} = "Hi, $user! You are now logged in.";
+				$c->response->redirect($c->uri_for('/'));
+			}
+			else {
+				$c->flash->{error} = "Log-in failed! Try again, I guess.";
+				$c->response->redirect($c->uri_for('login'));
+			}
+		}
+	}
+}
+
+=head2 logout
+
+Log the user out.
+
+=cut
+
+sub logout :Local :Args(0) {
+	my ($self, $c) = @_;
+	if ($c->user_exists) {
+		$c->logout;
+		$c->flash->{message} = "Goodbye! You have been logged out.";
+	}
+	$c->response->redirect($c->uri_for('/'));
+}
+
 =head2 default
 
 Standard 404 error page
@@ -37,8 +79,8 @@ Standard 404 error page
 =cut
 
 sub default :Path {
-	my ( $self, $c ) = @_;
-	$c->response->body( 'Page not found' );
+	my ($self, $c) = @_;
+	$c->response->body('Page not found.');
 	$c->response->status(404);
 }
 
