@@ -1,0 +1,49 @@
+
+body {
+	font: 100 14px Verdana, Helvetica, Arial;
+	margin: 10px;
+	background: #ccf;
+}
+
+img {
+	border: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	border-bottom: 1px dotted blue;
+}
+
+
+.left {
+	float: left;
+	margin: 0 5px 5px 0;
+}
+
+.right {
+	float: right;
+	margin: 0 0 5px 5px;
+}
+
+
+#outer {
+	margin: 0 auto 0 auto;
+	width: 640px;
+	border: 2px solid black;
+	background: #99c;
+}
+
+#inner {
+	margin: 5px;
+	padding: 10px;
+	border: 2px solid black;
+	background: white;
+}
+
+#inner h1 {
+	font-size: 1.3em;
+}
+

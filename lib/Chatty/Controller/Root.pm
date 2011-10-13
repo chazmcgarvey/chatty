@@ -16,7 +16,7 @@ Chatty::Controller::Root - Root Controller for Chatty
 
 =head1 DESCRIPTION
 
-[enter your description here]
+Implements all actions for this simple chat application.
 
 =head1 METHODS
 
@@ -27,10 +27,7 @@ The root page (/)
 =cut
 
 sub index :Path :Args(0) {
-    my ( $self, $c ) = @_;
-
-    # Hello World
-    $c->response->body( $c->welcome_message );
+	my ( $self, $c ) = @_;
 }
 
 =head2 default
@@ -40,9 +37,9 @@ Standard 404 error page
 =cut
 
 sub default :Path {
-    my ( $self, $c ) = @_;
-    $c->response->body( 'Page not found' );
-    $c->response->status(404);
+	my ( $self, $c ) = @_;
+	$c->response->body( 'Page not found' );
+	$c->response->status(404);
 }
 
 =head2 end
