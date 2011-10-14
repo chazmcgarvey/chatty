@@ -7,6 +7,7 @@ $('#form button[type=reset]').click(function() {
 [% END -%]
 <h2>Register</h2>
 [% IF ! c.user_exists -%]
+<!--
 <form id="form" action="[% c.uri_for('register') %]" method="post">
 	<fieldset>
 		<p>
@@ -29,6 +30,8 @@ $('#form button[type=reset]').click(function() {
 		<button type="reset">Reset</button>
 	</fieldset>
 </form>
+-->
+[% form.render %]
 [% ELSE -%]
 <p>You are already registered and logged in.  There is no need to register again.</p>
 [% END -%]

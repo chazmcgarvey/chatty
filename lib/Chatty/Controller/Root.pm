@@ -10,6 +10,23 @@ BEGIN { extends 'Catalyst::Controller' }
 #
 __PACKAGE__->config(namespace => '');
 
+use Chatty::Form::Login;
+use Chatty::Form::Register;
+
+has 'login_form' => (
+	isa	=> 'Chatty::Form::Login',
+	is	=> 'rw',
+	lazy	=> 1,
+	default	=> sub { Chatty::Form::Login->new }
+);
+
+has 'register_form' => (
+	isa	=> 'Chatty::Form::Register',
+	is	=> 'rw',
+	lazy	=> 1,
+	default	=> sub { Chatty::Form::Register->new }
+);
+
 =head1 NAME
 
 Chatty::Controller::Root - Root Controller for Chatty
@@ -38,21 +55,24 @@ Allow a user to login.
 
 sub login :Local :Args(0) {
 	my ($self, $c) = @_;
-	if ($c->req->method eq 'POST' && exists($c->req->params->{handle})) {
-		eval {
-			if ($c->authenticate({
-				username => $c->req->params->{handle},
-				password => $c->req->params->{password}
-			})) {
-				$c->change_session_id;
-				my $user = $c->user->get('username');
-				$c->flash->{message} = "Hi, $user! You are now logged in.";
-				$c->response->redirect($c->uri_for('/'));
-			}
-			else {
-				$c->flash->{error} = "Log-in failed! Try again, I guess.";
-				$c->response->redirect($c->uri_for('login'));
-			}
+
+	$c->stash(form => $self->login_form);
+	$self->login_form->process($c->req->params);
+	return unless $self->login_form->is_valid;
+
+	eval {
+		if ($c->authenticate({
+			username => $self->login_form->value->{username},
+			password => $self->login_form->value->{password}
+		})) {
+			$c->change_session_id;
+			my $user = $c->user->get('username');
+			$c->flash->{message} .= "Hi, $user! You are now logged in.";
+			$c->response->redirect($c->uri_for('/'));
+		}
+		else {
+			$c->flash->{error} = "Log-in failed! Try again, I guess.";
+			$c->response->redirect($c->uri_for('login'));
 		}
 	}
 }
@@ -79,6 +99,20 @@ Register a new account.
 =cut
 
 sub register :Local :Args(0) {
+	my ($self, $c) = @_;
+
+	$c->stash(form => $self->register_form);
+
+	my $new_account = $c->model('DB::Account')->new_result({});
+	$self->register_form->process(
+		item	=> $new_account,
+		params	=> $c->req->params
+	);
+
+	return unless $self->register_form->is_valid;
+
+	$c->flash->{message} = "Registration complete. ";
+	$c->forward('login');
 }
 
 =head2 default

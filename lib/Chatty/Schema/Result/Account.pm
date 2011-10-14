@@ -11,7 +11,7 @@ use MooseX::NonMoose;
 use namespace::autoclean;
 extends 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp");
 
 =head1 NAME
 
@@ -29,6 +29,11 @@ __PACKAGE__->table("account");
   is_auto_increment: 1
   is_nullable: 0
 
+=head2 email
+
+  data_type: 'text'
+  is_nullable: 1
+
 =head2 username
 
   data_type: 'text'
@@ -37,7 +42,7 @@ __PACKAGE__->table("account");
 =head2 password
 
   data_type: 'text'
-  is_nullable: 1
+  is_nullable: 0
 
 =head2 status
 
@@ -50,14 +55,17 @@ __PACKAGE__->table("account");
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  "email",
+  { data_type => "text", is_nullable => 1 },
   "username",
   { data_type => "text", is_nullable => 1 },
   "password",
-  { data_type => "text", is_nullable => 1 },
+  { data_type => "text", is_nullable => 0 },
   "status",
   { data_type => "text", default_value => "active", is_nullable => 1 },
 );
 __PACKAGE__->set_primary_key("id");
+__PACKAGE__->add_unique_constraint("username_unique", ["username"]);
 
 =head1 RELATIONS
 
@@ -77,8 +85,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-10-12 22:20:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:D8HUHJmSfJwylSeDYjfeHA
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-10-13 16:46:39
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pPJdUbHgHvUo4FxblDaJ2g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

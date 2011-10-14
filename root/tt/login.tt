@@ -1,6 +1,7 @@
 [% META title = 'Log In' -%]
 <h2>Log In</h2>
 [% IF ! c.user_exists -%]
+<!--
 <form action="[% c.uri_for('login')  %]" method="post">
 	<fieldset>
 		<p>
@@ -14,9 +15,11 @@
 		<input type="submit" value="Login">
 	</fieldset>
 </form>
-<h3>Don't have an account?</h3>
+-->
+[% form.render %]
+<h3>Register</h3>
 <p>
-If you haven't yet registered, <a href="[% c.uri_for('register') %]">go do that now</a>!
+If you don't already have an account, <a href="[% c.uri_for('register') %]">go register</a>!
 </p>
 [% ELSE -%]
 <p>You are already logged in.</p>
