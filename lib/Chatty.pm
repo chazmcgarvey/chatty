@@ -25,6 +25,7 @@ use Catalyst qw/
     Session
     Session::Store::FastMmap
     Session::State::Cookie
+    Unicode::Encoding
 /;
 
 extends 'Catalyst';
@@ -41,12 +42,9 @@ our $VERSION = '0.01';
 # local deployment.
 
 __PACKAGE__->config(
-    name => 'Chatty',
-    # Disable deprecated behavior needed by old applications
-    disable_component_resolution_regex_fallback => 1,
-);
-
-__PACKAGE__->config(
+	name => 'Chatty',
+	# Disable deprecated behavior needed by old applications
+	disable_component_resolution_regex_fallback => 1,
 	'Plugin::Authentication' => {
 		default => {
 			class           => 'SimpleDB',
