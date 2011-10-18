@@ -3,8 +3,8 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE room (
 	id		INTEGER PRIMARY KEY,
-	name		TEXT,
-	created		TIMESTAMP DEFAULT NOW
+	name		TEXT UNIQUE,
+	created		TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE account (
@@ -18,7 +18,7 @@ CREATE TABLE account (
 
 CREATE TABLE message (
 	id		INTEGER PRIMARY KEY,
-	posted		TIMESTAMP DEFAULT NOW,
+	posted		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	author		INTEGER REFERENCES account(id),
 	room		INTEGER REFERENCES room(id),
 	content		TEXT

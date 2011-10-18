@@ -37,7 +37,7 @@ __PACKAGE__->table("room");
 =head2 created
 
   data_type: 'timestamp'
-  default_value: NOW
+  default_value: current_timestamp
   is_nullable: 1
 
 =cut
@@ -48,9 +48,14 @@ __PACKAGE__->add_columns(
   "name",
   { data_type => "text", is_nullable => 1 },
   "created",
-  { data_type => "timestamp", default_value => \"NOW", is_nullable => 1 },
+  {
+    data_type     => "timestamp",
+    default_value => \"current_timestamp",
+    is_nullable   => 1,
+  },
 );
 __PACKAGE__->set_primary_key("id");
+__PACKAGE__->add_unique_constraint("name_unique", ["name"]);
 
 =head1 RELATIONS
 
@@ -85,8 +90,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-10-13 18:47:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2QSf3vZfv8xVbUKtsKsvDg
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-10-17 20:21:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:U0zHyxd2zFVEnATmgpd+Ag
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

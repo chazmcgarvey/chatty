@@ -32,7 +32,7 @@ __PACKAGE__->table("message");
 =head2 posted
 
   data_type: 'timestamp'
-  default_value: NOW
+  default_value: current_timestamp
   is_nullable: 1
 
 =head2 author
@@ -58,7 +58,11 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "posted",
-  { data_type => "timestamp", default_value => \"NOW", is_nullable => 1 },
+  {
+    data_type     => "timestamp",
+    default_value => \"current_timestamp",
+    is_nullable   => 1,
+  },
   "author",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "room",
@@ -111,8 +115,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-10-13 18:47:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:q1cq2bWftQPoo8huOftzMQ
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-10-17 20:21:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:R28y3tHGM5FZTILUAO/0XA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
