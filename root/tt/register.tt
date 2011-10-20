@@ -1,36 +1,12 @@
 [% META title = 'Register' -%]
 [% BLOCK js -%]
-$('#form').validationEngine();
-$('#form button[type=reset]').click(function() {
-	$('#form').validationEngine('hideAll');
+$('form').validationEngine();
+$('form input[type=reset]').click(function() {
+	$('form').validationEngine('hideAll');
 });
 [% END -%]
-<h2>Register</h2>
+<h1>Register</h1>
 [% IF ! c.user_exists -%]
-<!--
-<form id="form" action="[% c.uri_for('register') %]" method="post">
-	<fieldset>
-		<p>
-			<label>Email</label>
-			<input id="email" class="validate[custom[email]]" type="text" name="email">
-		</p>
-		<p>
-			<label>Username*</label>
-			<input id="handle" class="validate[required]" type="text" name="handle">
-		</p>
-		<p>
-			<label>Password*</label>
-			<input id="password1" class="validate[required]" type="password" name="password">
-		</p>
-		<p>
-			<label>Confirm*</label>
-			<input id="password2" class="validate[required]" type="password" name="password">
-		</p>
-		<button type="submit">Register</button>
-		<button type="reset">Reset</button>
-	</fieldset>
-</form>
--->
 [% form.render %]
 [% ELSE -%]
 <p>You are already registered and logged in.  There is no need to register again.</p>

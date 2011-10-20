@@ -1,5 +1,10 @@
 [% META title = 'Log In' -%]
-<h2>Log In</h2>
+<p>
+This app lets you chat with other registered chatters. Cool!  Once you are
+registered and logged-in, you will be allowed to join a chat room and get
+chatty.
+</p>
+<h1>Log In</h1>
 [% IF ! c.user_exists -%]
 <!--
 <form action="[% c.uri_for('login')  %]" method="post">
@@ -17,9 +22,10 @@
 </form>
 -->
 [% form.render %]
-<h3>Register</h3>
+<h2>Register</h2>
 <p>
-If you don't already have an account, <a href="[% c.uri_for('register') %]">go register</a>!
+If you don't already have an account, you should
+<a href="[% c.uri_for('register') %]">go register</a> now!
 </p>
 [% ELSE -%]
 <p>You are already logged in.</p>
