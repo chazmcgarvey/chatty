@@ -75,9 +75,11 @@ sub login :Local :Args(0) {
 			$c->res->redirect($c->uri_for_action('index'));
 			return;
 		}
+		else {
+			$c->flash->{error} = "Log-in failed! Try again, I guess.";
+			$c->res->redirect($c->uri_for_action('login'));
+		}
 	};
-	$c->flash->{error} = "Log-in failed! Try again, I guess.";
-	$c->res->redirect($c->uri_for_action('login'));
 }
 
 =head2 logout
