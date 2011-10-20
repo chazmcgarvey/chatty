@@ -1,0 +1,6 @@
+[% META title = 'Create a Chat Room' -%]
+[% BLOCK js -%]
+$('form').validationEngine();
+[% END -%]
+<h1>Create a Chat Room</h1>
+[% form.render %]

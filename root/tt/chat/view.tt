@@ -1,0 +1,13 @@
+[% META title = 'Live' -%]
+[% BLOCK js -%]
+$('form').validationEngine();
+[% END -%]
+<h1>Room: [% room.name %]</h1>
+[% IF messages.count == 0 -%]
+[% FOREACH msg IN messages -%]
+<p>[% msg.author.username %] ([% msg.posted %]): [% msg.content %]</p>
+[% END -%]
+[% ELSE -%]
+<p>No messages, yet.</p>
+[% END -%]
+[% form.render -%]

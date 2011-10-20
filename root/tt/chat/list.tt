@@ -1,0 +1,19 @@
+[% META title = 'Join a Chat Room' -%]
+[% BLOCK js -%]
+$('form').validationEngine();
+[% END -%]
+<h1>Join a Chat Room</h1>
+<table>
+[% FOREACH room IN rooms -%]
+<tr>
+	<td>
+		<a href="[% c.uri_for_action('/chat/view', room.id) %]">[% room.name %]</a>
+	</td>
+	<td>
+		[% room.created %]
+	</td>
+</tr>
+[% END -%]
+</table>
+<h2>Create Your Own Room</h2>
+[% form.render %]
