@@ -9,7 +9,9 @@ use Module::Install::Catalyst; # Complain loudly if you don't have
 name 'Chatty';
 all_from 'lib/Chatty.pm';
 
-requires 'Catalyst::Runtime' => '5.90002';
+requires 'Catalyst::Runtime' => '5.90007';
+requires 'Catalyst::Authentication::Realm::SimpleDB';
+requires 'Catalyst::Model::DBIC::Schema';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::StackTrace';
 requires 'Catalyst::Plugin::Static::Simple';
@@ -19,8 +21,14 @@ requires 'Catalyst::Plugin::Session::Store::FastMmap';
 requires 'Catalyst::Plugin::Session::State::Cookie';
 requires 'Catalyst::Plugin::Unicode::Encoding';
 requires 'Catalyst::Action::RenderView';
-requires 'JSON';
+requires 'Catalyst::View::JSON';
+requires 'Catalyst::View::TT';
+requires 'HTML::FormHandler';
+requires 'HTML::FormHandler::Model::DBIC';
+requires 'JSON::XS';
 requires 'Moose';
+requires 'MooseX::MarkAsMethods';
+requires 'MooseX::NonMoose';
 requires 'namespace::autoclean';
 requires 'Config::General'; # This should reflect the config file format you've chosen
                  # See Catalyst::Plugin::ConfigLoader for supported formats
