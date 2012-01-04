@@ -10,8 +10,6 @@ BEGIN { extends 'Catalyst::Controller' }
 #
 __PACKAGE__->config(namespace => '');
 
-use JSON 'encode_json';
-
 use Chatty::Form::Login;
 use Chatty::Form::Register;
 
@@ -137,22 +135,19 @@ sub register_validate :Local :Args(0) {
 	my $id = $c->req->param('fieldId');
 	my $username = $c->req->param('fieldValue');
 
-	my $json_arr = [];
-
 	if ($username) {
 		my $account = $c->model('DB::Account')->find({username => $username});
 		if (!$account) {
-			$json_arr = ["$id", 1, "This username is available. Nice!"];
+			$c->stash->{json} = ["$id", 1, "This username is available. Nice!"];
 		}
 		else {
-			$json_arr = ["$id", 0, "This username is taken."];
+			$c->stash->{json} = ["$id", 0, "This username is taken."];
 		}
 	}
 	else {
-		$json_arr = ["$id", 0, "Invalid arguments to check script."];
+		$c->stash->{json} = ["$id", 0, "Invalid arguments to check script."];
 	}
-	$c->res->content_type("application/json");
-	$c->res->body(encode_json($json_arr));
+	$c->forward('View::JSON');
 }
 
 =head2 access_denied

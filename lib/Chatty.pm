@@ -52,8 +52,12 @@ __PACKAGE__->config(
 		},
 	},
 	'Plugin::Session' => {
-		flash_to_stash => 1
-	}
+		flash_to_stash => 1,
+	},
+	default_view => 'HTML',
+	'View::JSON' => {
+		expose_stash => 'json',
+	},
 );
 
 # Start the application
