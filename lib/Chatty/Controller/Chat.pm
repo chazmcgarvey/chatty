@@ -7,20 +7,12 @@ BEGIN { extends 'Catalyst::Controller' }
 #__PACKAGE__->config(namespace => 'room');
 
 use Chatty::Form::RoomCreate;
-use Chatty::Form::MessageCreate;
 
 has 'roomcreate_form' => (
 	isa	=> 'Chatty::Form::RoomCreate',
 	is	=> 'rw',
 	lazy	=> 1,
 	default	=> sub { Chatty::Form::RoomCreate->new }
-);
-
-has 'messagecreate_form' => (
-	isa	=> 'Chatty::Form::MessageCreate',
-	is	=> 'rw',
-	lazy	=> 1,
-	default	=> sub { Chatty::Form::MessageCreate->new }
 );
 
 =head1 NAME
@@ -100,27 +92,17 @@ sub view :Chained(room) :PathPart('') :Args(1) {
 	$c->stash(room => $c->model('DB::Room')->find($room));
 	$c->detach('/missing') if !$c->stash->{room};
 
-	$c->stash(messages => [$c->model('DB::Message')->search(room => $room)]);
+	my $name = $c->user->obj->username;
 
-	$c->stash(form => $self->messagecreate_form);
-
-	my $new_message = $c->model('DB::Message')->new_result({
-		author => $c->user->obj->id,
-		room => $c->stash->{room}->id
-	});
-	$self->messagecreate_form->process(
-		item	=> $new_message,
-		params	=> $c->req->params
-	);
-
-	if (!$self->messagecreate_form->is_valid) {
-		if ($c->req->method eq 'POST') {
-			$c->stash->{error} = "The form has a validation error. Try again...";
-		}
+	my $msg = $c->req->param('msg');
+	if ($msg) {
+		$c->model('Meteor')->addMessage($room, "$name: $msg");
+		$c->stash->{json} = \1;
+		$c->forward('View::JSON');
 		return;
 	}
 
-	$c->res->redirect($c->uri_for_action('/chat/view', $c->stash->{room}->id));
+	$c->model('Meteor')->addMessage($room, "** $name has entered **");
 }
 
 =head1 AUTHOR

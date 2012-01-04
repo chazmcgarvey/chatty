@@ -15,14 +15,3 @@ CREATE TABLE account (
 	current_room	INTEGER REFERENCES room(id)
 );
 
-CREATE TABLE message (
-	id		INTEGER PRIMARY KEY,
-	posted		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	author		INTEGER REFERENCES account(id),
-	room		INTEGER REFERENCES room(id),
-	content		TEXT
-);
-
-INSERT INTO account (username, password) VALUES ('chaz', 'mypass');
-INSERT INTO account (username, password) VALUES ('jdoe', 'foobar');
-

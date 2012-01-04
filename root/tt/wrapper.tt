@@ -43,6 +43,7 @@
 		<script type="text/javascript" src="http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js"></script>
 		<script type="text/javascript" src="[% c.uri_for('/static/js/jquery.validationEngine-2.2.1.min.js') %]"></script>
 		<script type="text/javascript" src="[% c.uri_for('/static/js/jquery.validationEngine-en.js') %]"></script>
+[% TRY; INCLUDE js_include; CATCH; ''; END -%]
 		<script type="text/javascript">
 			$(function () {
 [% IF error -%]

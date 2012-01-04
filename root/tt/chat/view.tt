@@ -1,9 +1,42 @@
 [% META title = 'Live' -%]
+[% BLOCK js_include -%]
+  <script type="text/javascript" src="http://data.chatty.com/meteor.js"></script>
+[% END -%]
 [% BLOCK js -%]
-$('form').validationEngine();
+  Meteor.hostid = '' + Math.floor(999*Math.random());
+  Meteor.host = "data."+location.hostname;
+  Meteor.registerEventCallback("process", addMessage);
+  Meteor.registerEventCallback("eof", function() {
+    addMessage("** stream closed **");
+  });
+  Meteor.registerEventCallback("reset", function() {
+    addMessage("** stream reset **");
+  });
+  Meteor.registerEventCallback("changemode", function(mode) {
+    addMessage("** mode changed to "+mode+" **");
+  });
+  Meteor.joinChannel("[% room.id %]", 5);
+  Meteor.mode = 'stream';
+  Meteor.connect();
+
+  function addMessage(line) {
+    $("#chat").append("<p>"+line+"</p>");
+    $("#chat").stop().animate({scrollTop:$("#chat").prop("scrollHeight")}, 350);
+  };
+
+  $("#submit").click(function(e) {
+    $.getJSON("", {msg: $("#msg").val()},
+    function(data) {
+    });
+    $("#msg").val("");
+    e.preventDefault();
+  });
+  $("#msg").focus();
 [% END -%]
 <h1>Room: [% room.name %]</h1>
-[% FOREACH msg IN messages -%]
-<p>[% msg.author.username %] ([% msg.posted %]): [% msg.content %]</p>
-[% END -%]
-[% form.render -%]
+<div id="chat" style="height: 300px; overflow: auto"></div>
+<form id="chat_send">
+  <i>Say your thing:</i>
+  <input id="msg" type="input"></input>
+  <input id="submit" type="submit" value="Send"></input>
+<form>
