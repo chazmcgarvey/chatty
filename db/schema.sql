@@ -9,7 +9,6 @@ CREATE TABLE room (
 
 CREATE TABLE account (
 	id		INTEGER PRIMARY KEY,
-	email		TEXT,
 	username	TEXT UNIQUE,
 	password	TEXT NOT NULL,
 	status		TEXT DEFAULT 'active',
