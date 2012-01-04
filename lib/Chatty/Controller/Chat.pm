@@ -95,7 +95,8 @@ sub view :Chained(room) :PathPart('') :Args(1) {
 	my $name = $c->user->obj->username;
 
 	my $msg = $c->req->param('msg');
-	if ($msg) {
+	if (defined $msg) {
+		return if $msg eq '';
 		$c->model('Meteor')->addMessage($room, "$name: $msg");
 		$c->stash->{json} = \1;
 		$c->forward('View::JSON');
