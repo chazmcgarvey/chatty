@@ -1,0 +1,73 @@
+NAME
+    Chatty -- Real-time (comet) chat application using Catalyst
+
+SYNOPSIS
+        # install perl dependencies; skip to the next set of instructions
+        # while the dependencies are installing
+        cpan Catalyst::Devel
+        perl Makefile.PL
+        make installdeps
+
+        # install nginx (or install and configure some other reverse proxy)
+        # configure nginx and run it
+        sudo cp extra/nginx.conf /etc/nginx/nginx.conf
+        sudo /etc/rc.d/nginx start
+
+        # configure the comet server (see L<http://meteorserver.org/>)
+        sudo cp extra/cometd/meteord.conf.dist /etc/meteord.conf
+        # add the 'SubscriberDocumentRoot' option to meteord.conf;
+        # it should be set to $REPOSITORY_ROOT/extra/cometd/public_html
+        # run meteord (in another terminal)
+        ./extra/cometd/meteord -d
+
+        # configure hostnames
+        sudo cat extra/hosts >>/etc/hosts
+
+        # create the user database
+        sqlite3 db/info.db <db/schema.sql
+
+        # finally, run the application and try it out
+        ./script/chatty_server.pl -f
+        firefox http://chatty.com/
+
+DESCRIPTION
+    This is a toy web application implementing real-time (comet) chat. I
+    wrote this as an exercise to see how easy it would be to write such an
+    application using Perl/Catalyst. It was fairly easy.
+
+    Catalyst itself provides no streaming support or message bus, so I am
+    using a dedicated comet server to handle all of that, meteord. However,
+    in order to get meteord to work, it needs to be serving on the same port
+    as the Catalyst app. I accomplished this by using nginx as a reverse
+    proxy. However, you can't just use localhost because meteord does some
+    checks on the hostname to make sure it will not run into any
+    cross-domain restrictions, and those checks barf if the hostname doesn't
+    have a TLD. The fix for this is to just assign some fake hostnames to
+    localhost; the provided nginx configuration uses chatty.com for the
+    Catalyst app and data.chatty.com for the comet server, both on port
+    number 80. The actual Catalyst app runs on port 3000 and meteord runs on
+    port 4670. That's the reason for the complicated setup.
+
+    The perl dependencies can all be installed locally in a subdirectory of
+    the user's home directory using local::lib, like this:
+
+        # install local::lib (see L<http://search.cpan.org/dist/local-lib/>)
+        # then,
+        eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+
+    It is also usually much nicer to work with cpanminus rather than plain
+    old cpan:
+
+        # install cpanminus
+        curl -L http://cpanmin.us | perl - --self-upgrade
+
+BUGS
+    Tests are sadly nonexistent. :-(
+
+AUTHOR
+    Charles McGarvey <chazmcgarvey at brokenzipper.com>
+
+LICENSE
+    This library is free software. You can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
