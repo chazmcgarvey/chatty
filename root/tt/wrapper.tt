@@ -23,10 +23,12 @@
 			<div id="inner">
 				<div class="right">
 [% IF c.user_exists -%]
-					<a href="[% c.uri_for_action('logout') %]">Log Out</a>
+					Logged in as [% c.user.obj.username %]. <a href="[% c.uri_for_action('logout') %]">Log Out</a>
 [% END -%]
 				</div>
-				<img src="[% c.uri_for('/static/img/chat.png') %]" alt="Chat!">
+				<a href="[% c.uri_for('/') %]">
+					<img src="[% c.uri_for('/static/img/chat.png') %]" alt="Chat!">
+				</a>
 [% content -%]
 				<div id="footer">
 					Copyright &copy; 2011 Charles McGarvey. Some rights reserved.

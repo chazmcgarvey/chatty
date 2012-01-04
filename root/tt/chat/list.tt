@@ -3,6 +3,7 @@
 $('form').validationEngine();
 [% END -%]
 <h1>Join a Chat Room</h1>
+[% IF rooms.size -%]
 <table>
 [% FOREACH room IN rooms -%]
 <tr>
@@ -15,5 +16,8 @@ $('form').validationEngine();
 </tr>
 [% END -%]
 </table>
+[% ELSE -%]
+<p>There are no rooms, yet.  Be the first to create one!</p>
+[% END -%]
 <h2>Create Your Own Room</h2>
 [% form.render %]
